@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "name": "AI Personal Blog",
+  "version": "1.0.0",
+  "description": "Model Context Protocol manifest for the Personal Blog AI project.",
+  "defaultAgent": ".claude/agents/blog-assistant.md",
+  "agents": [
+    ".claude/agents/blog-assistant.md"
+  ],
+  "skills": [
+    ".claude/skills/blog-writing/SKILL.md"
+  ]
+}
