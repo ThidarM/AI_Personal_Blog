@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft, Calendar, Clock, Pencil, Trash2 } from "lucide-react";
 import type { Post } from "../../../types/blog";
 import useAuth from "../../../hooks/useAuth";
 import { getPostBySlug, deletePost } from "../../../lib/supabase/posts";
@@ -38,6 +39,7 @@ export default function BlogPostPage() {
   const [error, setError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const hasCoverImage = Boolean(post?.cover_image?.trim());
+  const isPublished = post?.status?.toLowerCase() === "published";
 
   useEffect(() => {
     if (!slug) {
@@ -109,24 +111,25 @@ export default function BlogPostPage() {
   };
 
   if (loading) {
-    return <main className="bg-slate-50 px-4 py-10">Loading post…</main>;
+    return <div className="card p-8 text-sm text-slate-600">Loading post…</div>;
   }
 
   if (error || !post) {
     return (
-      <main className="bg-slate-50 px-4 py-10">
-        <p className="text-red-600">{error ?? "Post not found."}</p>
-        <Link href="/dashboard" className="mt-4 inline-flex text-sm font-semibold text-slate-900 underline">
+      <div className="card mx-auto max-w-md p-8 text-center">
+        <p className="text-sm font-medium text-red-600">{error ?? "Post not found."}</p>
+        <Link href="/dashboard" className="btn-secondary mt-6">
+          <ArrowLeft className="h-4 w-4" />
           Back to your posts
         </Link>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50">
       <article className="mx-auto max-w-5xl px-6 py-10">
-        <div className="overflow-hidden rounded-2xl shadow-[0_18px_60px_-24px_rgba(15,23,42,0.2)]">
+        <div className="card overflow-hidden shadow-lg">
           {hasCoverImage ? (
             <Image
               src={post.cover_image as string}
@@ -145,17 +148,25 @@ export default function BlogPostPage() {
         <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-white">
-                {post.status?.toLowerCase() === "published" ? "Published" : "Draft"}
+              <span className={isPublished ? "badge-green" : "badge-amber"}>
+                {isPublished ? "Published" : "Draft"}
               </span>
-              <span className="text-sm text-slate-500">{formatDate(post.created_at)}</span>
-              <span className="text-sm text-slate-500">{estimateReadingTime(post.content)}</span>
+              <span className="flex items-center gap-1.5 text-sm text-slate-500">
+                <Calendar className="h-4 w-4" />
+                {formatDate(post.created_at)}
+              </span>
+              <span className="flex items-center gap-1.5 text-sm text-slate-500">
+                <Clock className="h-4 w-4" />
+                {estimateReadingTime(post.content)}
+              </span>
             </div>
 
-            <h1 className="mt-6 text-3xl font-bold leading-tight text-slate-900 sm:text-5xl">{post.title}</h1>
+            <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-5xl">
+              {post.title}
+            </h1>
 
             <div className="mt-6 flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-900 text-base font-semibold text-white">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-base font-semibold text-white">
                 {getInitials(post.author_name || post.author_id)}
               </div>
               <div className="text-sm">
@@ -167,18 +178,12 @@ export default function BlogPostPage() {
 
           {user?.id && post.author_id === user.id ? (
             <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/blog/edit/${post.slug}`}
-                className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-              >
+              <Link href={`/blog/edit/${post.slug}`} className="btn-secondary">
+                <Pencil className="h-4 w-4" />
                 Edit
               </Link>
-              <button
-                type="button"
-                onClick={handleDelete}
-                disabled={deleting}
-                className="inline-flex rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-100 disabled:opacity-60"
-              >
+              <button type="button" onClick={handleDelete} disabled={deleting} className="btn-danger">
+                <Trash2 className="h-4 w-4" />
                 {deleting ? "Deleting…" : "Delete"}
               </button>
             </div>
@@ -196,10 +201,11 @@ export default function BlogPostPage() {
             href="/dashboard"
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition hover:text-slate-900"
           >
-            <span aria-hidden="true">←</span> Back to My Blogs
+            <ArrowLeft className="h-4 w-4" />
+            Back to My Blogs
           </Link>
         </div>
       </article>
-    </main>
+    </div>
   );
 }

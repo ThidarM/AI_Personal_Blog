@@ -6,6 +6,12 @@ import Footer from "../components/layout/Footer";
 export const metadata: Metadata = {
   title: "AI Personal Blog",
   description: "A personal blog built with Next.js, Tailwind CSS, Supabase, and AI-assisted content creation.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

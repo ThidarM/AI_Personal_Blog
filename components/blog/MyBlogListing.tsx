@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FileText, Pencil, Plus, Send } from "lucide-react";
 import BlogCard from "./BlogCard";
 import type { Post } from "../../types/blog";
 import useAuth from "../../hooks/useAuth";
@@ -77,17 +78,15 @@ export default function MyBlogListing() {
 
   return (
     <section className="space-y-8">
-      <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <div className="card p-6 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-semibold text-slate-900">My Blogs</h1>
-            <p className="mt-3 text-slate-600">Manage your drafts and published posts in one place.</p>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">My Blogs</h1>
+            <p className="mt-2 text-sm text-slate-600">Manage your drafts and published posts in one place.</p>
           </div>
           <div>
-            <Link
-              href="/blog/create"
-              className="inline-flex rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
+            <Link href="/blog/create" className="btn-primary">
+              <Plus className="h-4 w-4" />
               New post
             </Link>
           </div>
@@ -95,17 +94,20 @@ export default function MyBlogListing() {
       </div>
 
       {loading ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center text-slate-600 shadow-sm">
-          Loading your posts…
-        </div>
+        <div className="card p-8 text-center text-sm text-slate-600">Loading your posts…</div>
       ) : error ? (
-        <div className="rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-red-700 shadow-sm">
-          {error}
-        </div>
+        <div className="card border-red-200 bg-red-50 p-8 text-center text-sm font-medium text-red-700">{error}</div>
       ) : posts.length === 0 ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-xl font-semibold text-slate-900">No posts yet</h2>
-          <p className="mt-2 text-slate-500">You don’t have any posts yet. Create a draft to get started.</p>
+        <div className="card p-8">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+              <FileText className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className="text-xl font-semibold tracking-tight text-slate-900">No posts yet</h2>
+              <p className="mt-1 text-sm text-slate-500">You don’t have any posts yet. Create a draft to get started.</p>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -115,10 +117,8 @@ export default function MyBlogListing() {
               post={post}
               actions={
                 <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href={`/blog/edit/${post.slug}`}
-                    className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
-                  >
+                  <Link href={`/blog/edit/${post.slug}`} className="btn-secondary px-3.5 py-2">
+                    <Pencil className="h-4 w-4" />
                     Edit
                   </Link>
                   {post.status?.toLowerCase() === "draft" ? (
@@ -126,8 +126,9 @@ export default function MyBlogListing() {
                       type="button"
                       onClick={() => publishDraft(post)}
                       disabled={publishingId === post.id}
-                      className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-100 disabled:opacity-60"
+                      className="btn-primary px-3.5 py-2"
                     >
+                      <Send className="h-4 w-4" />
                       {publishingId === post.id ? "Publishing…" : "Publish"}
                     </button>
                   ) : null}

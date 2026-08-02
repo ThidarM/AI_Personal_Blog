@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ImagePlus, Save, Type } from "lucide-react";
 import useProtectedRoute from "../../../hooks/useProtectedRoute";
 import { createPost } from "../../../lib/supabase/posts";
 import useAuth from "../../../hooks/useAuth";
@@ -58,48 +59,64 @@ export default function CreateBlogPage() {
   };
 
   return (
-    <main>
-      <h1 className="text-2xl font-semibold">Create Post</h1>
+    <div className="mx-auto max-w-3xl py-4">
+      <h1 className="text-3xl font-bold tracking-tight text-slate-900">Create Post</h1>
+      <p className="mt-2 text-sm text-slate-600">Write a new draft and publish it when it's ready.</p>
 
-      <section className="mt-6 space-y-4">
-        <label>
+      <section className="card mt-8 space-y-6 p-6 sm:p-8">
+        <label className="block">
           <span className="text-sm font-medium text-slate-700">Title</span>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3" />
+          <div className="relative mt-2">
+            <Type className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter a title" className="input pl-10" />
+          </div>
         </label>
 
-        <label>
+        <label className="block">
           <span className="text-sm font-medium text-slate-700">Content</span>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={18} className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3" />
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={18}
+            placeholder="Write your post content here..."
+            className="input mt-2"
+          />
         </label>
 
-        <label>
+        <label className="block">
           <span className="text-sm font-medium text-slate-700">Cover image URL</span>
-          <input
-            value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
-            placeholder="https://example.com/image.jpg"
-            className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
-          />
-          <p className="mt-2 text-sm text-slate-500">Enter an image URL. Leave it empty to keep the post without a cover image.</p>
+          <div className="relative mt-2">
+            <ImagePlus className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              value={coverImage}
+              onChange={(e) => setCoverImage(e.target.value)}
+              placeholder="https://example.com/image.jpg"
+              className="input pl-10"
+            />
+          </div>
+          <p className="mt-2 text-sm text-slate-500">
+            Enter an image URL. Leave it empty to keep the post without a cover image.
+          </p>
         </label>
 
         {hasCoverImage ? (
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
+          <div className="card overflow-hidden">
             <Image src={coverImage.trim()} alt="Cover preview" width={1200} height={720} className="h-48 w-full object-cover" />
           </div>
         ) : (
-          <div className="flex h-48 items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 text-sm uppercase tracking-[0.18em] text-slate-500">
+          <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-sm uppercase tracking-[0.18em] text-slate-500">
             No cover image
           </div>
         )}
 
         <div className="flex items-center gap-3">
-          <button onClick={handleSave} disabled={saving} className="rounded-full bg-slate-900 px-4 py-2 text-white disabled:opacity-60">
+          <button onClick={handleSave} disabled={saving} className="btn-primary">
+            <Save className="h-4 w-4" />
             {saving ? "Saving…" : "Save Draft"}
           </button>
           {message ? <p className="text-sm text-slate-600">{message}</p> : null}
         </div>
       </section>
-    </main>
+    </div>
   );
 }

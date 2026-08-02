@@ -18,9 +18,7 @@ function getStatusText(status?: string | null) {
 }
 
 function getStatusClasses(status?: string | null) {
-  return status?.toLowerCase() === "published"
-    ? "bg-emerald-100 text-emerald-700"
-    : "bg-amber-100 text-amber-700";
+  return status?.toLowerCase() === "published" ? "badge-green" : "badge-amber";
 }
 
 export default function BlogCard({ post, actions }: { post: Post; actions?: ReactNode }) {
@@ -31,7 +29,7 @@ export default function BlogCard({ post, actions }: { post: Post; actions?: Reac
   const hasCoverImage = Boolean(coverImage);
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <article className="card group overflow-hidden transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-lg">
       <div className="h-48 w-full overflow-hidden bg-slate-100 text-slate-500">
         {hasCoverImage ? (
           <Image
@@ -50,10 +48,8 @@ export default function BlogCard({ post, actions }: { post: Post; actions?: Reac
 
       <div className="p-6">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-xl font-semibold text-slate-900">{post.title}</h2>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusClasses(post.status)}`}>
-            {getStatusText(post.status)}
-          </span>
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">{post.title}</h2>
+          <span className={`${getStatusClasses(post.status)}`}>{getStatusText(post.status)}</span>
         </div>
 
         <p className="mt-4 text-sm leading-7 text-slate-600">
@@ -69,10 +65,7 @@ export default function BlogCard({ post, actions }: { post: Post; actions?: Reac
 
           <div className="flex flex-wrap items-center gap-2">
             {actions}
-            <Link
-              href={`/blog/${post.slug}`}
-              className="inline-flex rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
+            <Link href={`/blog/${post.slug}`} className="btn-primary px-3.5 py-2">
               View post
             </Link>
           </div>

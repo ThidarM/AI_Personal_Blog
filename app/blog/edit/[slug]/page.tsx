@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { ImagePlus, Save, Tag, Trash2, Type } from "lucide-react";
 import useProtectedRoute from "../../../../hooks/useProtectedRoute";
 import useAuth from "../../../../hooks/useAuth";
 import { getPostBySlug, updatePost, deletePost } from "../../../../lib/supabase/posts";
@@ -143,81 +144,89 @@ export default function EditBlogPage() {
   const canEdit = !!post && !!authUser?.id && post.author_id === authUser.id;
 
   return (
-    <main>
-      <h1 className="text-2xl font-semibold">Edit Post</h1>
+    <div className="mx-auto max-w-3xl py-4">
+      <h1 className="text-3xl font-bold tracking-tight text-slate-900">Edit Post</h1>
+      <p className="mt-2 text-sm text-slate-600">Update the title, content, status, or cover image below.</p>
 
-      <section className="mt-6 space-y-4">
+      <section className="card mt-8 space-y-6 p-6 sm:p-8">
         {loading || authLoading ? (
-          <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm text-slate-600">Loading post…</div>
+          <div className="text-sm text-slate-600">Loading post…</div>
         ) : message && !canEdit ? (
-          <div className="rounded-3xl border border-red-200 bg-red-50 p-8 text-red-700 shadow-sm">{message}</div>
+          <div className="card border-red-200 bg-red-50 p-6 text-sm font-medium text-red-700">{message}</div>
         ) : (
           <>
-            <label>
+            <label className="block">
               <span className="text-sm font-medium text-slate-700">Title</span>
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
-              />
+              <div className="relative mt-2">
+                <Type className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input value={title} onChange={(e) => setTitle(e.target.value)} className="input pl-10" />
+              </div>
             </label>
 
-            <label>
+            <label className="block">
               <span className="text-sm font-medium text-slate-700">Content</span>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={18}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
+                className="input mt-2"
               />
             </label>
 
-            <label>
+            <label className="block">
               <span className="text-sm font-medium text-slate-700">Status</span>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3"
-              >
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-              </select>
+              <div className="relative mt-2">
+                <Tag className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="input appearance-none pl-10"
+                >
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </div>
             </label>
 
-            <label>
+            <label className="block">
               <span className="text-sm font-medium text-slate-700">Cover image URL</span>
-              <input
-                value={coverImage}
-                onChange={(e) => setCoverImage(e.target.value)}
-                placeholder="https://example.com/image.jpg"
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3"
-              />
-              <p className="mt-2 text-sm text-slate-500">Enter a new image URL to replace the current cover. Leave it empty to remove the cover image.</p>
+              <div className="relative mt-2">
+                <ImagePlus className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input
+                  value={coverImage}
+                  onChange={(e) => setCoverImage(e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                  className="input pl-10"
+                />
+              </div>
+              <p className="mt-2 text-sm text-slate-500">
+                Enter a new image URL to replace the current cover. Leave it empty to remove the cover image.
+              </p>
             </label>
 
             {hasCoverImage ? (
-              <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-                <Image src={coverImage.trim()} alt="Cover preview" width={1200} height={720} className="h-48 w-full object-cover" />
+              <div className="card overflow-hidden">
+                <Image
+                  src={coverImage.trim()}
+                  alt="Cover preview"
+                  width={1200}
+                  height={720}
+                  className="h-48 w-full object-cover"
+                />
               </div>
             ) : (
-              <div className="flex h-48 items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 text-sm uppercase tracking-[0.18em] text-slate-500">
+              <div className="flex h-48 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-sm uppercase tracking-[0.18em] text-slate-500">
                 No cover image
               </div>
             )}
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <button
-                onClick={handleSave}
-                disabled={saving || !canEdit}
-                className="rounded-full bg-slate-900 px-4 py-2 text-white disabled:opacity-60"
-              >
+              <button onClick={handleSave} disabled={saving || !canEdit} className="btn-primary">
+                <Save className="h-4 w-4" />
                 {saving ? "Saving…" : "Save Changes"}
               </button>
-              <button
-                onClick={handleDelete}
-                disabled={saving || !canEdit}
-                className="rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-60"
-              >
+              <button onClick={handleDelete} disabled={saving || !canEdit} className="btn-danger">
+                <Trash2 className="h-4 w-4" />
                 Delete Post
               </button>
               {message ? <p className="text-sm text-slate-600">{message}</p> : null}
@@ -225,6 +234,6 @@ export default function EditBlogPage() {
           </>
         )}
       </section>
-    </main>
+    </div>
   );
 }

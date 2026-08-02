@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LogOut, User } from "lucide-react";
 import { ensureSupabaseConfig } from "../../../lib/supabase/client";
 import { getUser, signOut } from "../../../lib/supabase/auth";
 
@@ -35,11 +36,16 @@ export default function ProfilePage() {
   };
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-12">
-      <h1 className="text-3xl font-semibold text-slate-900">Profile</h1>
-      <p className="mt-2 text-sm text-slate-600">Manage your session and sign out of the blog.</p>
+    <div className="mx-auto w-full max-w-md px-4 py-12">
+      <div className="flex flex-col items-center text-center">
+        <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl bg-indigo-600 text-white">
+          <User className="h-7 w-7" />
+        </div>
+        <h1 className="mt-5 text-3xl font-bold tracking-tight text-slate-900">Profile</h1>
+        <p className="mt-2 text-sm text-slate-600">Manage your session and sign out of the blog.</p>
+      </div>
 
-      <section className="mt-8 space-y-4 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="card mt-8 space-y-4 p-8">
         {loading ? (
           <p className="text-sm text-slate-500">Loading session…</p>
         ) : email ? (
@@ -48,11 +54,8 @@ export default function ProfilePage() {
               <p className="text-sm text-slate-500">Signed in as</p>
               <p className="mt-1 text-lg font-medium text-slate-900">{email}</p>
             </div>
-            <button
-              type="button"
-              onClick={handleSignOut}
-              className="rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
+            <button type="button" onClick={handleSignOut} className="btn-secondary w-full">
+              <LogOut className="h-4 w-4" />
               Sign out
             </button>
           </>
@@ -62,6 +65,6 @@ export default function ProfilePage() {
 
         {message ? <p className="text-sm text-red-600">{message}</p> : null}
       </section>
-    </main>
+    </div>
   );
 }
