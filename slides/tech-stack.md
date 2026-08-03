@@ -2,56 +2,73 @@
 marp: true
 theme: default
 paginate: true
-transition: fade
+size: 16:9
 ---
 
-# Tech Stack
+<!-- _paginate: false -->
 
-AI Personal Blog — a personal blogging platform for writing, publishing, and managing posts with AI-assisted content.
+# AI Personal Blog
+
+**Modern AI-powered blogging platform**
+
+A personal blog for writing, publishing, and managing posts, built with Next.js, React, TypeScript, Tailwind CSS, Supabase, Gemini AI, and Vercel.
+
+---
 
 # Stack
 
-Frontend — Next.js (App Router), React 19, TypeScript, Tailwind CSS
-Backend — Next.js API routes for post listing and cover image upload
-Authentication — Supabase Auth with email/password
-Database — Supabase PostgreSQL with Row-Level Security
-AI — Claude agent and skill for AI-assisted content generation
-Styling — Tailwind CSS with the typography plugin
-Deployment — Vercel
-Language — TypeScript
+- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
+- **Backend / API:** Next.js API routes for posts and cover uploads
+- **Database:** Supabase PostgreSQL with Row-Level Security
+- **Authentication:** Supabase Auth (email/password)
+- **AI:** Gemini AI for content generation and editing
+- **Deployment:** Vercel
+- **Testing:** Not yet configured
+
+---
 
 # Agents
 
-blog-assistant — Generates blog articles, improves grammar, summarizes content, and creates tags.
+**blog-assistant**
+
+- **Purpose:** AI assistant for all blog content and editorial tasks
+- **Responsibilities:** Generate articles, improve grammar, summarize, create tags
+- **Example:** "Generate a blog article about AI writing tools."
+
+---
 
 # Skills
 
-blog-writing — Generates long-form blog articles following the project writing guidelines.
+**blog-writing**
+
+- **Purpose:** Standardized AI workflow for blog content
+- **Generates:** Long-form articles, grammar-polished text, summaries, tag lists
+- **Example:** "Write a post titled 'How AI Improves Personal Writing'."
+
+---
 
 # Methodology
 
-- Build features incrementally
+- Plan the feature
+- Implement incrementally
+- Use AI for content generation and review
 - Test locally
-- Commit meaningful changes
-- Push to GitHub
-- Deploy with Vercel
-- Review using AI agents
+- Deploy to Vercel
+- Update documentation
+
+---
 
 # Trigger + Commands
 
-blog-assistant:
-Trigger: @blog-assistant
+**blog-assistant:** @blog-assistant
+**blog-writing:** /blog-writing
 
-blog-writing:
-Trigger: /blog-writing
+**Development**
 
-Development:
-npm install
-npm run dev
-npm run build
-
-Deployment:
-git add .
-git commit
-git push
-Automatic deployment through Vercel after pushing to main.
+- npm install
+- npm run dev
+- npm run build
+- npm run lint
+- git add .
+- git commit
+- git push
