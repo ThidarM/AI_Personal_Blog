@@ -7,81 +7,51 @@ transition: fade
 
 # Tech Stack
 
-A modern AI-powered personal blogging platform.
-
-**Project Name:** AI Personal Blog
-
-**Description:** A modern AI-powered personal blogging platform built with Next.js, TypeScript, Tailwind CSS, Supabase, and Gemini AI.
-
----
+AI Personal Blog — a personal blogging platform for writing, publishing, and managing posts with AI-assisted content.
 
 # Stack
 
-The actual technologies used across the project.
-
-- **Next.js (App Router)** — `next` 16.2.12 powers pages, layouts, and API routes (`app/`).
-- **React** — 19.0.0 drives interactive client components and hooks.
-- **TypeScript** — strict typing across pages, components, hooks, and the Supabase library layer.
-- **Tailwind CSS** — utility-first styling with the typography plugin for the reading experience.
-- **Supabase Authentication** — email/password sign-in and session management (`lib/supabase/auth.ts`).
-- **Supabase Database** — PostgreSQL `posts` table with RLS and a `profiles` join for author names.
-- **Gemini AI** — assists with article generation, grammar, summaries, and tags via the project's AI tooling.
-- **Vercel Deployment** — production hosting for the blog (deployed from the `main` branch).
-- **Git & GitHub** — versioned and published at github.com/ThidarM/AI_Personal_Blog.
-
----
+Frontend — Next.js (App Router), React 19, TypeScript, Tailwind CSS
+Backend — Next.js API routes for post listing and cover image upload
+Authentication — Supabase Auth with email/password
+Database — Supabase PostgreSQL with Row-Level Security
+AI — Claude agent and skill for AI-assisted content generation
+Styling — Tailwind CSS with the typography plugin
+Deployment — Vercel
+Language — TypeScript
 
 # Agents
 
-Defined in `.claude/agents/`.
-
-**blog-assistant**
-Purpose: Generates blog articles, improves grammar, summarizes content, and creates tags for posts.
-Trigger: @blog-assistant
-
----
+blog-assistant — Generates blog articles, improves grammar, summarizes content, and creates tags.
 
 # Skills
 
-Defined in `.claude/skills/`.
-
-**blog-writing**
-Purpose: Generates long-form technical blog articles and polishes content following the project writing guidelines.
-Trigger: /blog-writing
-
----
+blog-writing — Generates long-form blog articles following the project writing guidelines.
 
 # Methodology
 
-The development workflow used in this project.
-
-- **Build features incrementally** — add one capability at a time (auth, posts, covers, AI tooling).
-- **Test locally** — run `npm run dev` and verify pages before shipping.
-- **Commit meaningful changes** — history shows focused commits (schema, screenshots, slides, branding).
-- **Push to GitHub** — keep the `main` branch in sync with the remote.
-- **Deploy with Vercel** — every push to `main` triggers a production build.
-- **Review using AI Agent** — the `blog-assistant` agent supports editorial and UX reviews.
-- **Improve documentation continuously** — README, slides, and agent/skill docs grow with the codebase.
-
----
+- Build features incrementally
+- Test locally
+- Commit meaningful changes
+- Push to GitHub
+- Deploy with Vercel
+- Review using AI agents
 
 # Trigger + Commands
 
-**Skill**
-Trigger: /blog-writing
-Prompt: Use the blog-writing skill to generate a technical article about React Server Components.
-
-**Agent**
+blog-assistant:
 Trigger: @blog-assistant
-Prompt: Use the blog-assistant agent to review my homepage UI and suggest improvements.
 
-**Development**
+blog-writing:
+Trigger: /blog-writing
+
+Development:
 npm install
 npm run dev
 npm run build
+
+Deployment:
 git add .
 git commit
 git push
-
-**Deployment**
-Automatic deployment through Vercel after pushing to the main branch.
+Automatic deployment through Vercel after pushing to main.
